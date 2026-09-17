@@ -1,0 +1,331 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  --background: #000000;
+  
+}
+/* Logoet folder frem på 1 sekund.logo-fade-in 1s
+   Det bliver langsommere til sidst og bliver stående. */
+   /* ease-out: sænker farten til sidst.
+   both: bruger startudseendet før og slutudseendet efter animationen. */
+
+.hero-logo {
+  animation: logo-fade-in 1s ease-out both;
+  
+}
+.rotated {
+  transform: rotateX(45deg);
+  background-color: pink;
+}
+
+.hero-tagline {
+  /* Bevægelsen tager 1 sekund og starter efter 1 sekund.
+     both holder teksten skjult, mens den venter. */
+  animation: tagline-drop 1s ease-out 1s both;
+}
+
+/* Logoet starter usynligt og drejer -90 grader om. logo roterer frem til 0 grader, mens det bliver synligt.
+   Varigheden bestemmes af animation-reglen på .hero-logo. */
+
+@keyframes logo-fade-in {
+  from {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+@keyframes tagline-drop {
+  
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* To trekanter  */
+.site-header::before,
+.site-header::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #ff2782;
+  pointer-events: none;
+}
+
+/* Øverste venstre hjørne. */
+.site-header::before {
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* Nederste højre hjørne. */
+.site-header::after {
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* 
+.event-image::before,
+.event-image::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  width: 54px;
+  height: 54px;
+  background: #ff2782;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* Øverste venstre trekant 
+.event-image::before {
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: translateY(-100%);
+}
+
+/* Nederste højre trekant  */
+.event-image::after {
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  transform: translateY(100%);
+}
+
+/* når musen er over billedet. */
+.event-image:hover::before,
+.event-image:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.gallery-item {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: clamp(130px, 17vw, 330px);
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+.gallery-grid .gallery-item {
+  position: relative;
+}
+
+
+
+.gallery-grid.gallery-visible .gallery-item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Billedet bliver mørkere ved hover eller tastaturfokus. */
+.gallery-item img {
+  transition: filter 0.4s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+  filter: brightness(0.4);
+}
+
+/* Pink kanter*/
+.gallery-item::before,
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.5s ease-out,
+    opacity 0.5s ease-out;
+}
+
+.gallery-item::before {
+  top: 0;
+  border-top: 1px solid #ff2782;
+  background: linear-gradient(
+    135deg,
+    #ff2782 38px,
+    transparent 38px
+  );
+  transform: translateY(-100%);
+}
+
+.gallery-item::after {
+  bottom: 0;
+  border-bottom: 1px solid #ff2782;
+  background: linear-gradient(
+    315deg,
+    #ff2782 38px,
+    transparent 38px
+  );
+  transform: translateY(100%);
+}
+
+.gallery-item:hover::before,
+.gallery-item:hover::after,
+.gallery-item:focus-visible::before,
+.gallery-item:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respektér brugerens indstilling om mindre bevægelse. */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-grid .gallery-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .gallery-item img,
+  .gallery-item::before,
+  .gallery-item::after {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(100, minmax(0, 1fr));
+    grid-template-rows: repeat(2, auto);
+  }
+
+  .gallery-item {
+    aspect-ratio: auto;
+    height: clamp(130px, 17vw, 330px);
+  }
+
+  .gallery-item-1 {
+    grid-column: 1 / 31;
+    grid-row: 1;
+  }
+
+  .gallery-item-2 {
+    grid-column: 31 / 53;
+    grid-row: 1;
+  }
+
+  .gallery-item-3 {
+    grid-column: 53 / 84;
+    grid-row: 1;
+  }
+
+  .gallery-item-4 {
+    grid-column: 84 / 101;
+    grid-row: 1;
+  }
+
+  .gallery-item-5 {
+    grid-column: 1 / 31;
+    grid-row: 2;
+  }
+
+  .gallery-item-6 {
+    grid-column: 31 / 66;
+    grid-row: 2;
+  }
+
+  .gallery-item-7 {
+    grid-column: 66 / 101;
+    grid-row: 2;
+  }
+
+.gallery-item-8 {
+  grid-column: 1 / 31;
+  grid-row: 3;
+}
+
+.gallery-item-9 {
+  grid-column: 31 / 66;
+  grid-row: 3;
+}
+
+.gallery-item-10 {
+  grid-column: 66 / 101;
+  grid-row: 3;
+}
+
+/* To billeder på fjerde række. */
+.gallery-item-11 {
+  grid-column: 1 / 51;
+  grid-row: 4;
+}
+
+.gallery-item-12 {
+  grid-column: 51 / 101;
+  grid-row: 4;
+}
+}
+/* Billedet bevæger sig mellem grid og lightbox. */
+::view-transition-group(.gallery-morph) {
+  animation-duration: 400ms;
+}
+
+::view-transition-image-pair(.gallery-morph) {
+  isolation: auto;
+}
+
+::view-transition-old(.gallery-morph) {
+  display: none;
+}
+
+::view-transition-new(.gallery-morph) {
+  height: 100%;
+  animation: none;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(.gallery-morph) {
+    animation-duration: 0s;
+  }
+}
+/* Welcome: tydelig indvendig ramme og tekst ved hover, fokus eller tryk. */
+.welcome-shade { opacity: 0; transition: opacity .5s; }
+.welcome-border { opacity: 0; transition: transform .7s ease-out, opacity .3s; }
+.welcome-border-top { transform: translateY(-110%); }
+.welcome-border-bottom { transform: translateY(110%); }
+.welcome-copy { opacity: 0; transition: opacity .6s ease-out; }
+.welcome-card:is(:hover, :focus-visible, .is-open) .welcome-shade,
+.welcome-card:is(:hover, :focus-visible, .is-open) .welcome-copy { opacity: 1; }
+.welcome-card:is(:hover, :focus-visible, .is-open) .welcome-border { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo, .hero-tagline { animation: none; }
+  .welcome-shade, .welcome-border, .welcome-copy { transition: none; }
+}

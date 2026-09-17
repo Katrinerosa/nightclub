@@ -1,0 +1,12 @@
+"use server";
+
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export default async function logoutAction() {
+	const cookieStore = await cookies();
+
+	cookieStore.delete("FD_AUTH_TOKEN");
+	cookieStore.delete("FD_AUTH_USER");
+	redirect("/");
+}
