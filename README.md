@@ -31,6 +31,30 @@ Serverens API-adresse kan sættes med `API_URL` i `.env.local`. Standardadressen
 
 Next.js 16, React 19, TypeScript, Tailwind CSS 4, Motion og Zod. Det lokale API er det oprindelige `json-server-relationship` / `json-server-auth`-API med en booking-udvidelse. API'et bruger `embed`, `sort`, `order` og `limit` uden indledende understregning.
 
+## Hurtig gennemgang af koden
+
+Projektet viser et samlet brugerflow fra registrering og login til booking, oversigt og annullering. Det forbinder frontend, servervalidering og et separat API.
+
+| Område | Start her | Det kan du undersøge |
+| --- | --- | --- |
+| Formular og feedback | [BookingForm.tsx](src/app/book-table/BookingForm.tsx) | Hvordan brugeren vælger bord og får feedback. |
+| Servervalidering | [Booking-action](src/app/book-table/action.ts) | Zod-validering, kapacitetskontrol og håndtering af API-fejl. |
+| Login og brugerdata | [Auth DAL](src/app/lib/dal/auth.ts) | Hvordan den aktuelle bruger findes på serveren. |
+| Bookingregler | [API-udvidelse](api-extension/README.md) og [reservations.cjs](api-extension/reservations.cjs) | Ejerskab, private bookinglister og kontrol mod dobbeltbooking. |
+| Automatiske tests | [reservations.test.cjs](api-extension/reservations.test.cjs) | De eksisterende tests af bookingreglerne. |
+
+## Prøv brugerflowet
+
+Når hjemmesiden og API'et kører lokalt:
+
+1. Opret en bruger på `/register`, og gå til `/book-table`.
+2. Vælg et bord, en dato og et antal gæster inden for bordets kapacitet.
+3. Find reservationen under `/my-bookings`.
+4. Forsøg at booke samme bord samme aften igen; API'et skal afvise forsøget.
+5. Annuller reservationen i oversigten.
+
+Dette er en vejledning til manuel gennemgang. Den erstatter ikke de automatiske checks nedenfor eller en vurdering af kravene til offentlig drift.
+
 ## Kontrol
 
 ```sh
